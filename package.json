@@ -1,0 +1,41 @@
+{
+  "name": "bazos-mcp-server",
+  "version": "1.0.0",
+  "description": "A TypeScript-based tool for scraping and monitoring graphics card listings from Bazos.cz marketplace",
+  "main": "dist/bazos.js",
+  "types": "dist/bazos.d.ts",
+  "type": "commonjs",
+  "scripts": {
+    "build": "rm -rf dist && tsc",
+    "start": "ts-node src/bazos.ts",
+    "dev": "ts-node src/bazos.ts",
+    "test": "ts-node src/test.ts"
+  },
+  "keywords": [
+    "bazos",
+    "scraper",
+    "graphics-cards",
+    "marketplace",
+    "typescript"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "cheerio": "^1.0.0",
+    "node-fetch": "^2.6.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.19",
+    "@types/node-fetch": "^2.6.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/progresak/bazos-mcp-server.git"
+  },
+  "bugs": {
+    "url": "https://github.com/progresak/bazos-mcp-server/issues"
+  },
+  "homepage": "https://github.com/progresak/bazos-mcp-server#readme"
+}
