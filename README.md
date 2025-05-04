@@ -1,19 +1,20 @@
 # Bazos MCP Server
 
-A TypeScript-based tool for scraping and monitoring graphics card listings from Bazos.cz marketplace. This tool helps users find the best deals on graphics cards by providing structured data from Bazos listings.
+A Model Context Protocol (MCP) server that provides real-time graphics card listings from Bazos.cz marketplace. This server enables AI assistants to search and retrieve current graphics card listings through a standardized interface.
 
 ## Features
 
-- Scrapes graphics card listings from Bazos.cz
-- Provides structured data including:
+- Real-time scraping of graphics card listings from pc.bazos.cz/graficka/
+- Returns structured data including:
   - Title
   - Price
   - Location
   - URL
   - Image URL
   - Description
+- Integration with Claude and other MCP-compatible AI assistants
 - Clean TypeScript implementation
-- Uses modern web scraping techniques with Cheerio
+- Implemented using [@modelcontextprotocol/sdk](https://github.com/modelcontextprotocol/typescript-sdk)
 
 ## Installation
 
@@ -27,43 +28,64 @@ npm install
 
 ## Usage
 
-```typescript
-import { fetchBazosListings } from './src/bazos';
+Build and start the MCP server:
 
-// Example: Search for RTX 4090 listings
-const listings = await fetchBazosListings('RTX 4090');
-console.log(listings);
+```bash
+# Build the TypeScript code
+npm run build
+
+# Start the server
+npm start
 ```
 
-## API Reference
+For development with automatic recompilation:
 
-### `fetchBazosListings(query: string)`
+```bash
+npm run dev
+```
 
-Fetches graphics card listings from Bazos.cz based on the search query.
+### Integration with Claude and other AI Assistants
 
-#### Parameters
+This server can be used with any MCP-compatible LLM interface, including Claude Desktop. The server provides the following tool:
 
-- `query` (string): Search term for graphics cards (e.g., "RTX 4090", "RTX 4070")
+- `search-graphics-cards`: Search for real graphics card listings on Bazos.cz
+  - Parameters:
+    - `query` (required): Filter listings by this search term (e.g., "RTX 4090", "RTX 4070")
 
-#### Returns
+### MCP Server Configuration
 
-Array of `BazosListing` objects with the following structure:
+Add this server to your MCP configuration:
 
-```typescript
-interface BazosListing {
-    title: string;      // Title of the listing
-    price: string;      // Price in CZK
-    location: string;   // Location of the seller
-    url: string;        // Direct link to the listing
-    imageUrl: string;   // URL of the listing image
-    description: string; // Listing description
+```json
+{
+  "mcpServers": {
+    "bazos": {
+      "command": "node",
+      "args": ["/path-to-this-repository/bazos-mcp-server/dist/index.js"]
+    }
+  }
 }
 ```
 
+## Implementation Details
+
+The server works by:
+
+1. Receiving a search query via the MCP interface
+2. Constructing the appropriate Bazos.cz search URL
+3. Scraping the HTML using cheerio
+4. Parsing listing information (title, price, location, URLs)
+5. Returning structured data to the client
+
+## Project Structure
+
+- `src/index.ts` - Main MCP server implementation
+- `src/bazos.ts` - Scraping functionality for Bazos.cz
+
 ## Dependencies
 
+- `@modelcontextprotocol/sdk`: For MCP server implementation
 - `cheerio`: For HTML parsing and data extraction
-- `node-fetch`: For making HTTP requests
 
 ## Contributing
 
